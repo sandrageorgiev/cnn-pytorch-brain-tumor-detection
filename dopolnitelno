@@ -1,0 +1,30 @@
+import torch
+from torchvision import transforms
+from PIL import Image
+
+def predict_image(model, image_path):
+    # Set model to evaluation mode
+    model.eval()
+
+    # Define the same transforms you used during training
+    transform = transforms.Compose([
+        transforms.Resize((224, 224)),
+        transforms.ToTensor(),
+        # any other transforms you used in training
+    ])
+
+    # Load and transform the image
+    image = Image.open(image_path)
+    image = transform(image).unsqueeze(0)  # Add batch dimension
+
+    with torch.no_grad():
+        outputs = model(image)
+        # Get predicted class
+        _, predicted = torch.max(outputs, 1)
+
+    return predicted.item()  # 0 for 'Brain Tumor', 1 for 'Healthy' (or vice versa)
+
+# Usage example:
+model.load_state_dict(torch.load('your_model.pth'))
+result = predict_image(model, 'path_to_new_image.jpg')
+label = 'Brain Tumor' if result == 0 else 'Healthy'  # adjust based on your class_to_idx

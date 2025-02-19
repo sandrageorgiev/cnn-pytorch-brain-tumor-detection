@@ -1,0 +1,41 @@
+digraph {
+	Input [label="Input (1, 128, 128)"]
+	Conv1 [label="Conv1
+3x3, 32 filters"]
+	Pool1 [label="MaxPool2d
+2x2"]
+	Conv2 [label="Conv2
+3x3, 64 filters"]
+	Pool2 [label="MaxPool2d
+2x2"]
+	Conv3 [label="Conv3
+3x3, 128 filters"]
+	Pool3 [label="MaxPool2d
+2x2"]
+	Conv4 [label="Conv4
+3x3, 256 filters"]
+	Pool4 [label="MaxPool2d
+2x2"]
+	Flatten [label=Flatten]
+	FC1 [label="FC1
+128 neurons"]
+	Dropout [label="Dropout
+p=0.5"]
+	FC2 [label="FC2
+4 neurons"]
+	Output [label="Output
+LogSoftmax"]
+	Input -> Conv1
+	Conv1 -> Pool1
+	Pool1 -> Conv2
+	Conv2 -> Pool2
+	Pool2 -> Conv3
+	Conv3 -> Pool3
+	Pool3 -> Conv4
+	Conv4 -> Pool4
+	Pool4 -> Flatten
+	Flatten -> FC1
+	FC1 -> Dropout
+	Dropout -> FC2
+	FC2 -> Output
+}
